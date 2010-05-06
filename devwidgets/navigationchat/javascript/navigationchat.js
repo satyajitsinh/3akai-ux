@@ -180,7 +180,7 @@ sakai.navigationchat = function(tuid, showSettings){
     var navCoursesSitesLink = "#nav_courses_sites_link";
     var navPeopleLink = "#nav_people_link";
     var navMySakaiLink = "#nav_my_sakai_link";
-    var navCalendarLink = "#nav_calendar_link";
+    var navEventsLink = "#nav_events_link";
     var navSelectedNavItemClass = "explore_nav_selected";
 
     // Seach
@@ -424,8 +424,8 @@ sakai.navigationchat = function(tuid, showSettings){
         }
 
         // Calendar
-        if ((windowLocationPath.indexOf(sakai.config.URL.SEARCH_GENERAL_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_PEOPLE_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_SITES_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.SEARCH_CONTENT_URL) !== -1) || (windowLocationPath.indexOf(sakai.config.URL.PUBLIC_SEARCH_URL) !== -1)) {
-            $(navCalendarLink).addClass(navSelectedNavItemClass);
+        if (windowLocationPath.indexOf("events.html") !== -1) {
+            $(navEventsLink).addClass(navSelectedNavItemClass);
             return;
         }
 
