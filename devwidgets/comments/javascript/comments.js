@@ -64,6 +64,7 @@ sakai.comments = function(tuid, showSettings){
     var commentsEditText = comments + "_editComment_txt_";
     var commentsEditSave = commentsClass + "_editComment_save";
     var commentsEditCancel = commentsClass + "_editComment_cancel";
+    var commentsPath = comments + "_path_";
 
     // Delete
     var commentsDelete = commentsClass + "_delete";
@@ -103,6 +104,9 @@ sakai.comments = function(tuid, showSettings){
     var commentsDirectionRbt = commentsName + "_ChooseDirectionComments";
     var commentsPermissionsRbt = commentsName + "_ChoosePermissionComments";
 
+    // Resize textarea to match width
+    var commentsMainContainerTextarea = commentsOutputContainer + " textarea";
+    var commentsCommentMessage = commentsClass + "_commentMessage";
 
     ////////////////////////
     // Utility  functions //
@@ -210,6 +214,7 @@ sakai.comments = function(tuid, showSettings){
      * @param {String} str
      */
     var tidyInput = function(str){
+        str = str.toString(); // in the event its not already a string, make it one
         str = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         str = str.replace(/\n/g, '<br />');
         return str;
@@ -241,9 +246,10 @@ sakai.comments = function(tuid, showSettings){
             catch (ex) {
                 comment.date = tempDate;
             }
+            
             comment.timeAgo = "about " + getTimeAgo(comment.date) + " ago";
             comment.formatDate = formatDate(comment.date);
-            comment.messageTxt = comment["sakai:body"];
+            comment.messageTxt = comment["sakai:body"];            
             comment.message = tidyInput(comment["sakai:body"]);
             // weird json bug.
             comment["sakai:deleted"] = (comment["sakai:deleted"] && (comment["sakai:deleted"] === "true" || comment["sakai:deleted"] === true)) ? true : false;
@@ -252,8 +258,9 @@ sakai.comments = function(tuid, showSettings){
             var user = {};
             // User
             // Puts the userinformation in a better structure for trimpath
-            if (comment.profile["sling:resourceType"] === "sakai/user-profile") {
-                var profile = comment.profile;
+            // if (comment.profile["sling:resourceType"] === "sakai/user-profile") { // no longer in use, it seems
+            if (comment.profile) {
+             	  var profile = comment.profile[0];
                 var fullName = "";
                 if (profile.firstName) {
                     fullName = profile.firstName;
@@ -264,10 +271,10 @@ sakai.comments = function(tuid, showSettings){
                 user.fullName = fullName;
                 user.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
                 // Check if the user has a picture
-                if (profile.picture && $.evalJSON(profile.picture).name) {
-                    user.picture = "/_user/public/" + profile["rep:userId"] + "/" + $.evalJSON(profile.picture).name;
+                if (profile.picture && $.parseJSON(profile.picture).name) {
+                    user.picture = "/_user" + profile.hash + "/public/profile/" + $.parseJSON(profile.picture).name;
                 }
-                user.uid = profile["rep:userId"][0];
+                user.uid = profile["userid"][0];
                 user.profile = sakai.config.URL.PROFILE_URL + "?user=" + user.uid;
             }
             else {
@@ -342,7 +349,7 @@ sakai.comments = function(tuid, showSettings){
             url: url,
             cache: false,
             success: function(data){
-                json = $.evalJSON(data);
+                json = $.extend(data, {}, true);
                 showComments();
             },
             error: function(xhr, textStatus, thrownError){
@@ -628,6 +635,7 @@ sakai.comments = function(tuid, showSettings){
 
     /** Bind the insert comment button*/
     $(commentsCommentBtn, rootel).bind("click", function(e, ui){
+        $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
         // checks if the user is loggedIn
         var isLoggedIn = (me.user.anon && me.user.anon === true) ? false : true;
         var txtToFocus = commentsMessageTxt;
@@ -682,7 +690,7 @@ sakai.comments = function(tuid, showSettings){
      * @param {Boolean} deleteValue true = delete it, false = undelete it.
      */
     var doDelete = function(id, deleteValue){
-        var url = store + id;
+        var url = $(commentsPath+id).val();
         var data = {
             "sakai:deleted": deleteValue
         };
@@ -718,6 +726,7 @@ sakai.comments = function(tuid, showSettings){
      * Edit link
      */
     $(commentsEdit, rootel).live('click', function(e, ui){
+        $(commentsMainContainerTextarea).width($(commentsCommentMessage).width());
         var id = e.target.id.replace("comments_edit_", "");
         // Show the textarea
         $(commentsMessage + id, rootel).hide();
@@ -733,10 +742,10 @@ sakai.comments = function(tuid, showSettings){
         if (message !== "") {
             var data = {
                 "sakai:body": message,
-                "sakai:editedby": me.user.userid + "|" + new Date().toUTCString()
+                "sakai:editedby": me.user.userid
             };
             // Do a post to the comment to edit the message.
-            var commentUrl = store + id;
+            var commentUrl = $(commentsPath+id).val();
             $.ajax({
                 url: commentUrl,
                 cache: false,

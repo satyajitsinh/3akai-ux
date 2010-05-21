@@ -68,6 +68,8 @@ sakai.createsite = function(tuid, showSettings){
     var createSiteNoncourseNameEmpty = createSiteNoncourseName + "_empty";
     var createSiteNoncourseIdEmpty = createSiteNoncourseId + "_empty";
     var createSiteNoncourseIdTaken = createSiteNoncourseId + "_taken";
+    var createSiteNoncourseDescriptionLong = createSiteNoncourseDescription + "_long";
+    var createSiteNoncourseDescriptionLongCount = createSiteNoncourseDescriptionLong + "_count";
     var errorFields = ".create_site_error_msg";
 
     // CSS Classes
@@ -103,8 +105,8 @@ sakai.createsite = function(tuid, showSettings){
             item.name = sakai.data.me.profile.firstName + " " + sakai.data.me.profile.lastName;
             item.userid = sakai.data.me.user.userid;
             item.picture = sakai.config.URL.USER_DEFAULT_ICON_URL;
-            if (sakai.data.me.profile.picture && $.evalJSON(sakai.data.me.profile.picture).name){
-                item.picture = "/_user/public/" + sakai.data.me.user.userid + "/" + $.evalJSON(sakai.data.me.profile.picture).name;
+            if (sakai.data.me.profile.picture && $.parseJSON(sakai.data.me.profile.picture).name){
+                item.picture = "/_user/public/" + sakai.data.me.user.userid + "/" + $.parseJSON(sakai.data.me.profile.picture).name;
             }
             members.items.unshift(item);
 
@@ -197,6 +199,7 @@ sakai.createsite = function(tuid, showSettings){
 
     var resetErrorFields = function(){
         $("input").removeClass(invalidFieldClass);
+        $("textarea").removeClass(invalidFieldClass);
         $(errorFields).hide();
     };
 
@@ -258,7 +261,7 @@ sakai.createsite = function(tuid, showSettings){
                 "name" : sitetitle,
                 "description" : sitedescription,
                 "id" : siteid,
-                "sakai:site-template" : "/templates/" + sitetemplate
+                "sakai:site-template" : sakai.config.URL.SITE_TEMPLATE.replace("__TEMPLATE__",sitetemplate)
             },
             type: "POST",
             success: function(data, textStatus){
@@ -295,6 +298,12 @@ sakai.createsite = function(tuid, showSettings){
         if (!siteid)
         {
             setError(createSiteNoncourseId,createSiteNoncourseIdEmpty,true);
+            inputError = true;
+        }
+        if (sitedescription.length > 80)
+        {
+            $(createSiteNoncourseDescriptionLongCount).html(sitedescription.length);
+            setError(createSiteNoncourseDescription,createSiteNoncourseDescriptionLong,true);
             inputError = true;
         }
 

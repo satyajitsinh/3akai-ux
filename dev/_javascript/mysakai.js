@@ -231,7 +231,7 @@ sakai.dashboard = function(){
             }
             jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-            myportaljson = $.evalJSON(jsonstring);
+            myportaljson = $.parseJSON(jsonstring);
 
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, beforeFinishAddWidgets);
 
@@ -251,15 +251,6 @@ sakai.dashboard = function(){
             document.location = "/dev/index.html";
         }
         else {
-
-            $("#hispan").text(person.profile.firstName);
-
-            if (person.profile.picture){
-                var picture = $.evalJSON(person.profile.picture);
-                if (picture.name) {
-                    $("#picture_holder").html("<img src='/_user" + person.profile.path + "/public/profile/" + picture.name + "'/>");
-                }
-            }
 
             $(".body-container").show();
 
@@ -372,7 +363,7 @@ sakai.dashboard = function(){
 
             jsonstring += '},"layout":"' + sakai.data.my_sakai.selectedLayout + '"}';
 
-            myportaljson = $.evalJSON(jsonstring);
+            myportaljson = $.parseJSON(jsonstring);
             layout = myportaljson;
 
             sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson);
@@ -423,7 +414,9 @@ sakai.dashboard = function(){
 
             $('#widgetscontainer').html($.TemplateRenderer("widgetscontainer_template", final2));
 
-            $(".widget1").hover(
+            // .hover is shorthand for .bind('mouseenter mouseleave')
+            // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
+            $(".widget1").unbind('mouseenter mouseleave').hover(
                 function(over){
                     var id = this.id + "_settings";
                     $("#" + id).show();
@@ -436,7 +429,7 @@ sakai.dashboard = function(){
                 }
             );
 
-            $(".settings").click(function(ev){
+            $(".settings").unbind('click').click(function(ev){
 
                 if($("#widget_settings_menu").is(":visible")){
                     $("#widget_settings_menu").hide();
@@ -469,7 +462,9 @@ sakai.dashboard = function(){
                 }
             });
 
-            $(".more_option").hover(
+            // .hover is shorthand for .bind('mouseenter mouseleave')
+            // unbinding 'hover' doesn't work, 'mouseenter mouseleave' must be used instead.
+            $(".more_option").unbind('mouseenter mouseleave').hover(
                 function(over){
                     $(this).addClass("selected_option");
                 },
@@ -478,7 +473,7 @@ sakai.dashboard = function(){
                 }
             );
 
-            $("#settings_remove").click(function(ev){
+            $("#settings_remove").unbind('click').click(function(ev){
                 var id = currentSettingsOpen;
                 var el = document.getElementById(id);
                 var parent = el.parentNode;
@@ -490,7 +485,7 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $("#settings_hide").click(function(ev){
+            $("#settings_hide").unbind('click').click(function(ev){
 
                 var el = $("#" + currentSettingsOpen.split("_")[1] + "_container");
                 if (el.css('display') == "none"){
@@ -506,7 +501,7 @@ sakai.dashboard = function(){
                 return false;
             });
 
-            $("#settings_settings").click(function(ev){
+            $("#settings_settings").unbind('click').click(function(ev){
                 var generic = "widget_" + currentSettingsOpen + "_/_user" + sakai.data.me.profile.path + "/private/widgets/";
                 var id = currentSettingsOpen.split("_")[1];
                 var old = document.getElementById(id);
@@ -523,7 +518,7 @@ sakai.dashboard = function(){
             /**
              * Bind the document on click event
              */
-            $(document).click(function(e){
+            $(document).unbind('click').click(function(e){
                 var $clicked = $(e.target);
 
                 // Check if one of the parents is the chatstatuscontainer
@@ -626,7 +621,7 @@ sakai.dashboard = function(){
 
             serString += '},"layout":"' + myportaljson.layout + '"}';
 
-            myportaljson = $.evalJSON(serString);
+            myportaljson = $.parseJSON(serString);
 
             var isempty = true;
             for (i in myportaljson.columns){
@@ -809,7 +804,7 @@ sakai.dashboard = function(){
         }
         jsonstring += '},"layout":"' + selectedlayout + '"}';
 
-        myportaljson = $.evalJSON(jsonstring);
+        myportaljson = $.parseJSON(jsonstring);
 
         sakai.api.Server.saveJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, myportaljson, finishAddWidgets);
 
@@ -945,11 +940,23 @@ sakai.dashboard = function(){
     // Initialisation function //
     /////////////////////////////
 
-    /*
-     * This will try to load the dashboard state file from the SData personal space
+    /**
+     * Init function for the dashboard page
      */
+    var init = function(){
 
-    sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+        // Set the entity mode
+        sakai.data.entity = sakai.data.entity || {};
+        sakai.data.entity.mode = "myprofile";
+
+        /*
+         * This will try to load the dashboard state file from the SData personal space
+         */
+        sakai.api.Server.loadJSON("/_user" + sakai.data.me.profile.path + "/private/" + stateFile, decideExists);
+
+    };
+
+    init();
 
 };
 
