@@ -137,33 +137,32 @@ sakai.events = function(){
      */
     var parseTalks = function(data){
         if(data){
-            var json = $.evalJSON(data);
-            if (json && json.vcalendar && json.vcalendar.vevents){
+            if (data && data.vcalendar && data.vcalendar.vevents){
 
-                var talks = json.vcalendar.vevents, talk;
+                var talks = data.vcalendar.vevents, talk;
 
                 for (var i = 0, il = talks.length; i < il; i++) {
-                    talk = json.vcalendar.vevents[i];
+                    talk = data.vcalendar.vevents[i];
 
                     // Parse the dates
-                    json.vcalendar.vevents[i].DTPARSE = parseDate($.ParseJCRDate(talk.DTSTART.substring(0, 19)), $.ParseJCRDate(talk.DTEND.substring(0, 19)));
+                    data.vcalendar.vevents[i].DTPARSE = parseDate($.ParseJCRDate(talk.DTSTART.substring(0, 19)), $.ParseJCRDate(talk.DTEND.substring(0, 19)));
 
                     // Split the summary since it both contains the name of the speaker + the title of the talk
-                    var splitSummary = json.vcalendar.vevents[i].SUMMARY.split(" - ");
-                    json.vcalendar.vevents[i].SPEAKER = splitSummary[splitSummary.length - 1];
+                    var splitSummary = data.vcalendar.vevents[i].SUMMARY.split(" - ");
+                    data.vcalendar.vevents[i].SPEAKER = splitSummary[splitSummary.length - 1];
 
-                    json.vcalendar.vevents[i].TITLE = "";
+                    data.vcalendar.vevents[i].TITLE = "";
                     for (var k = 0, kl = splitSummary.length; k < kl -1; k++){
                         if(k === 0){
-                            json.vcalendar.vevents[i].TITLE += splitSummary[k];
+                            data.vcalendar.vevents[i].TITLE += splitSummary[k];
                         }else{
-                            json.vcalendar.vevents[i].TITLE += " - " + splitSummary[k];
+                            data.vcalendar.vevents[i].TITLE += " - " + splitSummary[k];
                         }
                         
                     }
                 }
 
-                renderTalks(json.vcalendar);
+                renderTalks(data.vcalendar);
             } else {
                 fluid.log("No featured talks were found");
             }
