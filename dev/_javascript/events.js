@@ -145,7 +145,7 @@ sakai.events = function(){
                     talk = data.vcalendar.vevents[i];
 
                     // Parse the dates
-                    data.vcalendar.vevents[i].DTPARSE = parseDate($.ParseJCRDate(talk.DTSTART.substring(0, 19)), $.ParseJCRDate(talk.DTEND.substring(0, 19)));
+                    data.vcalendar.vevents[i].DTPARSE = parseDate(sakai.api.Util.parseSakaiDate(talk.DTSTART.substring(0, 19)), sakai.api.Util.parseSakaiDate(talk.DTEND.substring(0, 19)));
 
                     // Split the summary since it both contains the name of the speaker + the title of the talk
                     var splitSummary = data.vcalendar.vevents[i].SUMMARY.split(" - ");
