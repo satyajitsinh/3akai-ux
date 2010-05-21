@@ -61,7 +61,7 @@ sakai.events = function(){
      * @param {Object} results The JSON results object
      */
     var renderTalks = function(results){
-        $eventsContainerList.html($.Template.render(eventsContainerMainTemplate, results));
+        $eventsContainerList.html($.TemplateRenderer(eventsContainerMainTemplate, results));
     };
 
 
