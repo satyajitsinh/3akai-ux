@@ -189,13 +189,6 @@
                                             <textarea id="txt_personalinterests" rows="3" class="edit profile_edit_textarea" title="__MSG__PERSONAL_INTERESTS__"></textarea>
                                         </td>
                                     </tr>
-
-                                    <tr id="hobbies">
-                                        <th class="entry_label">__MSG__HOBBIES__:</th>
-                                        <td>
-                                            <input id="txt_hobbies" maxlength="255" class="flc-inlineEdit-text" type="text" title="__MSG__HOBBIES__" />
-                                        </td>
-                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -462,16 +455,16 @@
 
                         <!-- WEBSITES -->
                         <div class="profile_overflow_hidden profile_section" id="websites">
-                            <a href="javascript:;" class="websitesadd popup_field_trigger">__MSG__ADD_A_WEBSITE__</a>
+                            <a href="javascript:;" class="websitesadd popup_field_trigger">__MSG__ADD_A_COURSE__</a>
                             <div class="profile_section_header">
-                                __MSG__WEBSITES__
+                                __MSG__COURSES__
                             </div>
 
                             <div class="profile_section_body" id="websites_list">
                                 <table summary="Websites">
                                     <tr id="no_websites" style="display:block">
                                         <td colspan="2">
-                                            <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
+                                            <span>__MSG__NO_COURSES_ADDED_YET__</span>
                                         </td>
                                     </tr>
                                 </table>
@@ -487,7 +480,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="width:15px; padding-bottom:0px" class="centertd">
-                                                    <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_WEBSITE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
+                                                    <img src="_images/m2-header4-up.png" id="website_record_${i.id}_remove" alt="__MSG__REMOVE_THE_COURSE_RECORD__" class="website_record_remove" style="display:none; cursor: hand; cursor: pointer"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -496,7 +489,7 @@
                                     <table>
                                         <tr>
                                             <td colspan="2" style="padding-bottom:0px;">
-                                                <span>__MSG__NO_WEBSITES_ADDED_YET__</span>
+                                                <span>__MSG__NO_COURSES_ADDED_YET__</span>
                                             </td>
                                         </tr>
                                     </table>
@@ -1196,20 +1189,20 @@
 
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                    <h1>__MSG__WEBSITE__</h1>
+                    <h1>__MSG__COURSE__</h1>
                     <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
 
             <!-- /lightbox-header -->
             <div class="dialog_content">
-                <h4 style="color:#333333; float: left">__MSG__ADD_A_WEBSITE_TO_YOUR_SITE_LIST__</h4>
+                <h4 style="color:#333333; float: left">__MSG__ADD_A_COURSE_TO_YOUR_COURSE_LIST__</h4>
                 <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
                 <br/><br/>
                 <form id="add_website_form">
-                    <table summary="Add Website">
+                    <table summary="Add Course">
                         <tr>
-                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COURSE_TITLE__:</td>
                             <td><input maxlength="255" type="text" style="width:250px" id="new_website_title" title="__MSG__SITE_TITLE__" /></td>
                         </tr>
                         <tr>
@@ -1237,21 +1230,21 @@
 
             <div class="dialog_header">
                 <div class="dialog_header_inner">
-                    <h1>__MSG__WEBSITE__</h1>
+                    <h1>__MSG__COURSE__</h1>
                     <a href="javascript:;" class="jqmClose dialog_close_image" title="__MSG__CLOSE_DIALOG__">__MSG__CLOSE_DIALOG__</a>
                 </div>
             </div>
 
             <!-- /lightbox-header -->
             <div class="dialog_content">
-                <h4 style="color:#333333; float: left">__MSG__EDIT_A_WEBSITE_FROM_YOUR_LIST__</h4>
+                <h4 style="color:#333333; float: left">__MSG__EDIT_A_COURSE_FROM_YOUR_LIST__</h4>
                 <span class="scu-right fs11 c999999;" style="float:right"><strong class="fs13 cCC0000">*</strong> = __MSG__REQUIRED_INFORMATION__</span>
                 <br/><br/>
                 <form id="edit_website_form">
                     <input type="hidden" id="edit_website_id" title="__MSG__WEBSITE_INFORMATION_ID__"/>
                     <table summary="Edit Website">
                         <tr>
-                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__SITE_TITLE__:</td>
+                            <td style="width: 100px"><strong class="fs13 cCC0000">*</strong> __MSG__COURSE_TITLE__:</td>
                             <td><input maxlength="255" type="text" style="width:250px" id="edit_website_title" title="__MSG__SITE_TITLE__" /></td>
                         </tr>
                         <tr>
