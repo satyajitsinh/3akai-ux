@@ -152,7 +152,7 @@ var Widgets = {
             "url":"/devwidgets/footer/footer.html"
         },
         "flickr": {
-            "ca": false,
+            "ca": true,
             "description": "flickr widget",
             "i18n": {
                 "default": "/devwidgets/flickr/bundles/default.json",
@@ -162,7 +162,7 @@ var Widgets = {
             "id": "flickr",
             "img": "/devwidgets/flickr/images/flickr.png",
             "name": "flickr",
-            "showinsakaigoodies": false,
+            "showinsakaigoodies": true,
             "url":"/devwidgets/flickr/flickr.html"
         },
         "filepicker": {
@@ -220,6 +220,16 @@ var Widgets = {
             "id":"helloworldwow",
             "name":"Hello World GWT",
             "url":"/devwidgets/helloworldwow/war/Helloworldwow.html"
+        },
+        "listgeneral": {
+            "description":"General space, site and content lister widget",
+            "hasSettings": false,
+            "id": "listgeneral",
+            "i18n": {
+                "default": "/devwidgets/listgeneral/bundles/default.json"
+            },
+            "name": "General Lister",
+            "url": "/devwidgets/listgenral/listgeneral.html"
         },
         "listpeople": {
             "description":"General people lister widget",
