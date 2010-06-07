@@ -256,4 +256,4 @@ sakai.events = function(){
     
     init();
 };
-sdata.container.registerForLoad("sakai.events");
+sakai.api.Widgets.Container.registerForLoad("sakai.events");
